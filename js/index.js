@@ -10,11 +10,12 @@ let item = '';
 
 
 async function getData(query) {
+
+    document.getElementById('render_images').innerHTML = null;
     const response = await fetch(`${url}&text=${query}&api_key=${key}&per_page=12&sort=relevance&extras=url_sq,url_m,description&format=json&nojsoncallback=?`)
     const data = await response.json();
     console.log(data);
     getImage(data);
-
 };
 
 
@@ -23,9 +24,21 @@ btn.addEventListener('click', () => {
     getData(search.value);
 });
 
+search.addEventListener("keydown", function(e) {
+    if (e.code === "Enter") {
+        getData(search.value);
+    }
+  });
+
+
 
 function getImage(data) {
     let images = document.getElementById('render_images');
+
+    if (!data.photos.photo.length) {
+        images.innerHTML = 'Hittade inte ' + search.value;
+        return;
+    }
    
     data.photos.photo.forEach(element => {
         let item = document.createElement('li')
