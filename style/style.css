@@ -30,26 +30,23 @@ h1 {
 }
 
 .grid-container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-block-start: 0px;
-  margin-block-end: 0px;
-  padding-inline-start: 0;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
   color: red;
+  padding: 0;
 }
 
 .gridPic > img {
   height: 200px;
   width: 200px;
   padding: 3px;
-  filter: grayscale(0);
+  cursor: pointer;
 }
 
-.gridPic > img:hover {
-  filter: grayscale(100);
-  transition: 0.3s ease-in;
+.gridPic {
+  display: flex;
+  justify-content: center;
+  padding: 0;
 }
 
 
@@ -80,4 +77,121 @@ h1 {
 
 .label-container {
   text-align: center;
+  display: none;
+}
+
+
+
+
+/* --------------------------------------- */
+
+
+/* Style the Image Used to Trigger the Modal */
+#modal-img {
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* The Lightbox background */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; 
+  padding-top: 100px; 
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%; 
+  overflow: auto; 
+  background-color: rgba(0,0,0,0.9); 
+}
+
+/* Lightbox Content (Image) */
+.modal-content {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+}
+
+#caption {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+  text-align: center;
+  color: #ccc;
+  padding: 10px 0;
+  height: 150px;
+}
+
+
+.modal-content, #caption {
+  animation-name: zoom;
+  animation-duration: 0.6s;
+}
+
+@keyframes zoom {
+  from {transform:scale(0)}
+  to {transform:scale(1)}
+}
+
+/* The Close Button */
+.close {
+  position: absolute;
+  top: 15px;
+  right: 35px;
+  color: #f1f1f1;
+  font-size: 40px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.close:hover,
+.close:focus {
+  color: #bbb;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.up {
+  display: flex;
+  justify-content: center;
+  text-decoration: none;
+  color: yellow;
+}
+
+.up-box {
+  height: 3rem;
+  width: 6rem;
+  background-color: black;
+  border-radius: 52%;
+  display: flex;
+  justify-content: center;
+}
+
+
+@media screen and (min-width: 376px) {
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+  }
+
+  .label-container {
+    display: block;
+  }
+
+  .gridPic > img:hover {
+    filter: grayscale(0);
+    transition: 0.3s ease-in;
+  }
+  .gridPic > img {
+
+    filter: grayscale(100);
+
+
+}
+
 }
