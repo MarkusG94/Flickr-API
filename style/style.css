@@ -1,6 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Gayathri&display=swap');
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0 auto;
   max-width: 760px;
+}
+
+h1 {
+  text-align: center;
+  font-family: 'Gayathri', sans-serif;
+
 }
 
 .search-container {
@@ -21,8 +33,10 @@ body {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  justify-content: center;
   margin-block-start: 0px;
   margin-block-end: 0px;
+  padding-inline-start: 0;
   color: red;
 }
 
@@ -30,4 +44,40 @@ body {
   height: 200px;
   width: 200px;
   padding: 3px;
+  filter: grayscale(0);
+}
+
+.gridPic > img:hover {
+  filter: grayscale(100);
+  transition: 0.3s ease-in;
+}
+
+
+
+.prev, .next {
+  width: 3rem;
+  height: 1.5rem;
+}
+
+.pageNumber {
+  width: 2rem;
+}
+
+
+.pagenumbers {
+  display: flex;
+  justify-content: center;
+}
+
+.pagenumbers > p {
+    margin-block-start: 0;
+    margin-block-end: 0;
+}
+
+.pageCount {
+  text-align: center;
+}
+
+.label-container {
+  text-align: center;
 }

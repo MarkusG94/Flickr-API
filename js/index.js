@@ -6,32 +6,72 @@ let btn = document.getElementById('btn');
 let toggle = document.getElementById('toggleBtn');
 let medium = '_b';
 let small = '_m';
-let page = '&per_page=12';
+let perPage = '&per_page=12';
+let page = 1;
 let sort = '&sort=relevance';
+let totalPages;
 // let item = '';
+let setPageNmbr = document.getElementById('set-page-number');
+let prev = document.getElementById('prev');
+let next = document.getElementById('next');
 
-
-async function getData(query) {
+async function getData(query, page) {
 
     document.getElementById('render_images').innerHTML = null;
-    const response = await fetch(`${url}&text=${query}&api_key=${key}${page}${sort}&extras=url_sq,url_m,description&format=json&nojsoncallback=?`)
+    const response = await fetch(`${url}&text=${query}&api_key=${key}${perPage}&page=${page}${sort}&extras=description&format=json&nojsoncallback=?`)
     const data = await response.json();
+    totalPages = data.photos.pages;
+
     console.log(data);
+    updatePageCounter(page, totalPages);
     getImage(data);
 };
+
+function updatePageCounter(currentPage, totalPage) {
+    let html = document.getElementById('page-count');
+    let text = `Sida ${currentPage} av ${totalPage}`
+
+    html.innerHTML = text;
+}
 
 
 //Eventlyssnare med click på knappen "search".
 btn.addEventListener('click', () => {
-    getData(search.value);
+    getData(search.value, page);
 });
 
-// Gör att du kan söka med att trycka på enter
-search.addEventListener("keydown", function(e) {
-    if (e.code === "Enter") {
-        getData(search.value);
+next.addEventListener('click', () => {
+
+    if (page >= 1 && page < totalPages) {
+        page = page + 1
+        getData(search.value, page);
     }
-  });
+});
+
+prev.addEventListener('click', () => {
+    if (page >= 2) {
+        page = page - 1
+        getData(search.value, page);
+    }
+});
+
+
+setPageNmbr.addEventListener("keydown", function (e) {
+    if (e.code === "Enter") {
+        let pageNumber = parseInt(e.currentTarget.value)
+        page = parseInt(e.currentTarget.value);
+
+        getData(search.value, pageNumber);
+    }
+});
+
+
+// Gör att du kan söka med att trycka på enter
+search.addEventListener("keydown", function (e) {
+    if (e.code === "Enter") {
+        getData(search.value, page);
+    }
+});
 
 function getImage(data) {
     let images = document.getElementById('render_images');
@@ -41,8 +81,8 @@ function getImage(data) {
         images.innerHTML = `No match found from your input "${search.value}", please try again!`
         return;
     }
-   // Nedan kör vi forEach så att vi kan göra en dynamisk URL med hjälp av parameter.
-   // Vi skapar även en li i vår UL för varje bild vi får fram.
+    // Nedan kör vi forEach så att vi kan göra en dynamisk URL med hjälp av parameter.
+    // Vi skapar även en li i vår UL för varje bild vi får fram.
     data.photos.photo.forEach(element => {
         let item = document.createElement('li')
         item.style.listStyle = 'none';

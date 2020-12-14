@@ -8,14 +8,29 @@
 </head>
 <body>
 
-    <section class="search-container">  
+    <h1> Flickr Gallery</h1>
+
+    <section class="search-container">
     <input id="search" class="search">
     <button id="btn" class="btn">Search</button>
 </section>
 
+<section class="pagenumbers" id="pagination">
+    <button class="prev" id="prev">Prev</button>
+    <button class="next" id="next">Next</button>
+</section>
+<article>
+    <p class="pageCount" id="page-count"></p>
+</article>
+<section class="label-container">
+<label for="set-page-number">
+    <input class="pageNumber" id="set-page-number" type="number">
+    Ange önskat sidnummer
+</label>
+</section>
+
+
     <ul id="render_images" class="grid-container"></ul>
-    <div class="list" id="list"></div>
-    <div class="pagenumbers" id="pagination"></div>
-    <script src="../js/index.js"></script>    
+    <script src="../js/index.js"></script>
 </body>
 </html>
