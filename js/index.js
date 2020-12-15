@@ -20,6 +20,8 @@ async function getData(query, page) {
     const response = await fetch(`${url}&text=${query}&api_key=${key}${perPage}&page=${page}${sort}&extras=description&format=json&nojsoncallback=?`)
     const data = await response.json();
 
+    //Om sidan har mer än 5 sidor så sätter vi max 5 sidor
+    //annars visas det totala antalet sidor som finns.
     if (data.photos.pages >= 5) {
         totalPages = 5;
     } else {
@@ -28,7 +30,7 @@ async function getData(query, page) {
 
     console.log(data);
     updatePageCounter(page, totalPages);
-    getImage(data);
+    getImages(data);
 };
 
 // visar vilken sida du är på
@@ -49,10 +51,11 @@ btn.addEventListener('click', () => {
 
 //trycker du på next kommer du till nästa sida
 next.addEventListener('click', () => {
-
+//Är sidan vi är på högre eller = 1 och samtidigt mindre 
+//än totala sidor.
     if (page >= 1 && page < totalPages) {
         page = page + 1
-        setPageNmbr.value = '';
+        setPageNmbr.value = ''; // nollställer siffran i inputen där vilken sida du sökt på är.
         getData(search.value, page);
     }
 });
@@ -87,7 +90,8 @@ search.addEventListener("keydown", function (e) {
     }
 });
 
-function getImage(data) {
+// hämtar bilder
+function getImages(data) {
     let images = document.getElementById('render_images');
 
     // if satsen nedan gör att om det vi söker på inte finns så skrivs det ut i HTML "hittades ej".
@@ -101,7 +105,7 @@ function getImage(data) {
         let item = document.createElement('li')
         item.style.listStyle = 'none';
         item.classList.add('gridPic');
-        item.innerHTML = (`<img data-high_res="https://farm${element.farm}.staticflickr.com/${element.server}/${element.id}_${element.secret}${medium}.jpg" data-description='${element.description._content}' class="flickr-image" src="https://farm${element.farm}.staticflickr.com/${element.server}/${element.id}_${element.secret}${small}.jpg"/>`);
+        item.innerHTML = (`<img data-high_res="https://farm${element.farm}.staticflickr.com/${element.server}/${element.id}_${element.secret}${medium}.jpg" data-description='${element.description._content}' class="flickr-image" src="https://farm${element.farm}.staticflickr.com/${element.server}/${element.id}_${element.secret}${small}.jpg" />`);
         images.appendChild(item);
     });
 
@@ -123,10 +127,18 @@ function initLightbox() {
         el.addEventListener('click', (e) => {
             modal.style.display = "block";
 
+            // Här sparar vi ner element och data i variablar
+
+            // bild-elementet vi klickar på
             let clickedImage = e.currentTarget;
+
+            // Här sparas den dynamiska bild taggen ner
             let modalImg = document.getElementById("modal-img");
+
+            // Här sparas den dynamiska p taggen, även kallas caption
             let captionText = document.getElementById("caption");
-            //
+
+
             modalImg.src = clickedImage.dataset.high_res;
             captionText.innerHTML = clickedImage.dataset.description;
         });
